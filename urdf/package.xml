@@ -21,7 +21,6 @@
 
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
-  <build_depend>console_bridge</build_depend>
   <build_depend>tinyxml</build_depend>
   <build_depend>tinyxml_vendor</build_depend>
   <build_depend>urdfdom</build_depend>
