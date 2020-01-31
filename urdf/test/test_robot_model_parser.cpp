@@ -75,7 +75,8 @@ protected:
 
   bool traverse_tree(urdf::LinkConstSharedPtr link, int level = 0)
   {
-    fprintf(stderr, "Traversing tree at level %d, link size %lu\n",
+    fprintf(
+      stderr, "Traversing tree at level %d, link size %lu\n",
       level, link->child_links.size());
     level += 2;
     bool retval = true;
