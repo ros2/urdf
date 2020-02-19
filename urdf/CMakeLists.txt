@@ -63,7 +63,7 @@ if(BUILD_TESTING)
   ament_cppcheck(LANGUAGE "c++")
   ament_cpplint()
   ament_lint_cmake()
-  ament_uncrustify()
+  ament_uncrustify(LANGUAGE "C++")
 endif()
 
 ament_export_libraries(${PROJECT_NAME})
