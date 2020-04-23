@@ -26,15 +26,16 @@ endif()
 
 install(FILES ${generated_compat_header} DESTINATION include/${PROJECT_NAME})
 
-include_directories(
-  include
-  ${urdfdom_INCLUDE_DIRS}
-  ${urdfdom_headers_INCLUDE_DIRS}
-  ${TinyXML_INCLUDE_DIRS}
-)
-
 add_library(${PROJECT_NAME} src/model.cpp)
-target_link_libraries(${PROJECT_NAME} ${TinyXML_LIBRARIES} ${urdfdom_LIBRARIES})
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include>"
+)
+ament_target_dependencies(${PROJECT_NAME}
+  urdfdom
+  urdfdom_headers
+  TinyXML)
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "URDF_BUILDING_DLL")
@@ -44,7 +45,7 @@ if(APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
@@ -67,6 +68,7 @@ if(BUILD_TESTING)
 endif()
 
 ament_export_libraries(${PROJECT_NAME})
+ament_export_targets(${PROJECT_NAME})
 ament_export_include_directories(include)
 ament_export_dependencies(tinyxml_vendor)
 ament_export_dependencies(TinyXML)
