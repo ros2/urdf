@@ -98,32 +98,6 @@ bool Model::initParamWithNodeHandle(const std::string & param, const ros::NodeHa
 }
 */
 
-bool Model::initXml(TiXmlDocument * xml_doc)
-{
-  if (!xml_doc) {
-    fprintf(stderr, "Could not parse the xml document.\n");
-    return false;
-  }
-
-  std::stringstream ss;
-  ss << *xml_doc;
-
-  return Model::initString(ss.str());
-}
-
-bool Model::initXml(TiXmlElement * robot_xml)
-{
-  if (!robot_xml) {
-    fprintf(stderr, "Could not parse the xml element.\n");
-    return false;
-  }
-
-  std::stringstream ss;
-  ss << (*robot_xml);
-
-  return Model::initString(ss.str());
-}
-
 bool Model::initString(const std::string & xml_string)
 {
   urdf::ModelInterfaceSharedPtr model;

@@ -58,7 +58,6 @@ The connection between links(nodes) and joints(edges) should define a tree (i.e.
 \section codeapi Code API
 
 The URDF parser API contains the following methods:
-  \li Parse and build tree from XML: urdf::Model::initXml
   \li Parse and build tree from File: urdf::Model::initFile
   \li Parse and build tree from String: urdf::Model::initString
   \li Get Root Link: urdf::Model::getRoot
