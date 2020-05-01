@@ -52,8 +52,10 @@ class Model : public ModelInterface
 {
 public:
   /// \brief Load Model from TiXMLElement
+  [[deprecated("use initString instead")]]
   URDF_EXPORT bool initXml(TiXmlElement * xml);
   /// \brief Load Model from TiXMLDocument
+  [[deprecated("use initString instead")]]
   URDF_EXPORT bool initXml(TiXmlDocument * xml);
   /// \brief Load Model given a filename
   URDF_EXPORT bool initFile(const std::string & filename);
