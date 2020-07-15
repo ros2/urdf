@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 project(urdf)
 
 find_package(ament_cmake_ros REQUIRED)
+find_package(pluginlib REQUIRED)
+find_package(urdf_parser_plugin REQUIRED)
 find_package(urdfdom REQUIRED)
 find_package(urdfdom_headers REQUIRED)
 find_package(tinyxml_vendor REQUIRED)
@@ -33,8 +35,10 @@ target_include_directories(${PROJECT_NAME}
   "$<INSTALL_INTERFACE:include>"
 )
 ament_target_dependencies(${PROJECT_NAME}
+  urdf_parser_plugin
   urdfdom
   urdfdom_headers
+  pluginlib
   TinyXML)
 
 if(WIN32)
@@ -44,6 +48,22 @@ endif()
 if(APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
+
+add_library(urdf_xml_parser MODULE
+  src/urdf_plugin.cpp
+)
+target_link_libraries(urdf_xml_parser
+  ${PROJECT_NAME}
+)
+ament_target_dependencies(urdf_xml_parser
+  "pluginlib"
+  "urdf_parser_plugin"
+)
+
+install(TARGETS urdf_xml_parser
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
@@ -70,8 +90,13 @@ endif()
 ament_export_libraries(${PROJECT_NAME})
 ament_export_targets(${PROJECT_NAME})
 ament_export_include_directories(include)
+ament_export_dependencies(pluginlib)
 ament_export_dependencies(tinyxml_vendor)
 ament_export_dependencies(TinyXML)
+ament_export_dependencies(urdf_parser_plugin)
 ament_export_dependencies(urdfdom)
 ament_export_dependencies(urdfdom_headers)
+
+pluginlib_export_plugin_description_file(urdf_parser_plugin "urdf_parser_description.xml")
+
 ament_package()

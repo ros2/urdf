@@ -37,13 +37,13 @@
 #ifndef URDF_PARSER_PLUGIN_H
 #define URDF_PARSER_PLUGIN_H
 
-#include <urdf/urdfdom_compatibility.h>
+#include <urdf_world/types.h>
 
 namespace urdf
 {
 
 /** \brief Base class for URDF parsers */
-class URDFParser 
+class URDFParser
 {
 public:
   URDFParser()
@@ -54,7 +54,13 @@ public:
   }
 
   /// \brief Load Model from string
-  virtual urdf::ModelInterfaceSharedPtr parse(const std::string &xml_string) = 0;
+  /// \return nullptr and write to stderr if the given string is invalid
+  virtual urdf::ModelInterfaceSharedPtr parse(const std::string & data) = 0;
+
+  /// \brief Indicate if data is meant to be parsed by this parser
+  /// \return confidence that the data is meant for this parser, where smaller
+  ///         values mean more confident, and 0 is absolute certainty.
+  virtual size_t might_handle(const std::string & data) = 0;
 };
   
 }

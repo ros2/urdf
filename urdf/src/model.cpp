@@ -37,21 +37,40 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "urdf/model.h"
 
 /* we include the default parser for plain URDF files;
    other parsers are loaded via plugins (if available) */
-#include "urdf_parser/urdf_parser.h"
+#include <urdf_parser_plugin/parser.h>
+#include <pluginlib/class_loader.hpp>
 
 namespace urdf
 {
-
-static bool IsColladaData(const std::string & data)
+class ModelImplementation
 {
-  return data.find("<COLLADA") != std::string::npos;
+public:
+  ModelImplementation() : loader_("urdf_parser_plugin", "urdf::URDFParser")
+  {
+  }
+
+  ~ModelImplementation() = default;
+
+  // Loader used to get plugins
+  pluginlib::ClassLoader<urdf::URDFParser> loader_;
+};
+
+
+Model::Model() : impl_(new ModelImplementation)
+{
 }
+
+Model::~Model()
+{
+}
+
 
 bool Model::initFile(const std::string & filename)
 {
@@ -124,49 +143,34 @@ bool Model::initXml(TiXmlElement * robot_xml)
   return Model::initString(ss.str());
 }
 
-bool Model::initString(const std::string & xml_string)
+bool Model::initString(const std::string & data)
 {
   urdf::ModelInterfaceSharedPtr model;
 
-  // necessary for COLLADA compatibility
-  if (IsColladaData(xml_string)) {
-    fprintf(stderr, "Parsing robot collada xml string is not yet supported.\n");
+  size_t best_score = std::numeric_limits<size_t>::max();
+  pluginlib::UniquePtr<urdf::URDFParser> best_plugin;
+  std::string best_plugin_name;
+
+  // Figure out what plugins might handle this format
+  for (const std::string & plugin_name : impl_->loader_.getDeclaredClasses()) {
+    pluginlib::UniquePtr<urdf::URDFParser> plugin_instance =
+      impl_->loader_.createUniqueInstance(plugin_name);
+    if (plugin_instance) {
+      size_t score = plugin_instance->might_handle(data);
+      if (score < best_score) {
+        best_score = score;
+        best_plugin = std::move(plugin_instance);
+        best_plugin_name = plugin_name;
+      }
+    }
+  };
+
+  if (!best_plugin) {
+    fprintf(stderr, "No plugin found for given robot description.\n");
     return false;
-    /*
-    ROS_DEBUG("Parsing robot collada xml string");
-
-    static boost::mutex PARSER_PLUGIN_LOCK;
-    static boost::scoped_ptr<pluginlib::ClassLoader<urdf::URDFParser> > PARSER_PLUGIN_LOADER;
-    boost::mutex::scoped_lock _(PARSER_PLUGIN_LOCK);
-
-    try
-    {
-      if (!PARSER_PLUGIN_LOADER)
-        PARSER_PLUGIN_LOADER.reset(new pluginlib::ClassLoader<urdf::URDFParser>("urdf_parser_plugin", "urdf::URDFParser"));
-     const std::vector<std::string> &classes = PARSER_PLUGIN_LOADER->getDeclaredClasses();
-     bool found = false;
-     for (std::size_t i = 0 ; i < classes.size() ; ++i)
-       if (classes[i].find("urdf/ColladaURDFParser") != std::string::npos)
-     {
-       boost::shared_ptr<urdf::URDFParser> instance = PARSER_PLUGIN_LOADER->createInstance(classes[i]);
-       if (instance)
-         model = instance->parse(xml_string);
-       found = true;
-       break;
-     }
-     if (!found)
-       ROS_ERROR_STREAM("No URDF parser plugin found for Collada files. Did you install the corresponding package?");
-   }
-   catch(pluginlib::PluginlibException& ex)
-   {
-     ROS_ERROR_STREAM("Exception while creating planning plugin loader " << ex.what() << ". Will not parse Collada file.");
-   }
   }
-   */
-  } else {
-    fprintf(stderr, "Parsing robot urdf xml string.\n");
-    model = parseURDF(xml_string);
-  }
+
+  model = best_plugin->parse(data);
 
   // copy data from model into this object
   if (model) {
@@ -177,6 +181,7 @@ bool Model::initString(const std::string & xml_string)
     this->root_link_ = model->root_link_;
     return true;
   }
+  fprintf(stderr, "Failed to parse robot description using: %s\n", best_plugin_name.c_str());
   return false;
 }
 }  // namespace urdf

@@ -1,7 +1,7 @@
 /*********************************************************************
 * Software License Agreement (BSD License)
 *
-*  Copyright (c) 2008, Willow Garage, Inc.
+*  Copyright (c) 2020, Willow Garage, Inc.
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -32,58 +32,35 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-/* Author: Wim Meeussen */
-
-#ifndef URDF__MODEL_H_
-#define URDF__MODEL_H_
-
-#include <memory>
-#include <string>
-
-#include "tinyxml.h"  // NOLINT
-#include "urdf_model/model.h"
-
-#include "urdf/urdfdom_compatibility.h"
-#include "urdf/visibility_control.hpp"
+#include <urdf_parser/urdf_parser.h>
+#include <urdf_parser_plugin/parser.h>
 
 namespace urdf
 {
-
-// Forward Declaration
-class ModelImplementation;
-
-class Model : public ModelInterface
+class URDFXMLParser : public urdf::URDFParser
 {
 public:
-  URDF_EXPORT
-  Model();
 
-  URDF_EXPORT
-  virtual ~Model();
+  URDFXMLParser() = default;
 
-  /// \brief Load Model from TiXMLElement
-  [[deprecated("use initString instead")]]
-  URDF_EXPORT bool initXml(TiXmlElement * xml);
-  /// \brief Load Model from TiXMLDocument
-  [[deprecated("use initString instead")]]
-  URDF_EXPORT bool initXml(TiXmlDocument * xml);
-  /// \brief Load Model given a filename
-  URDF_EXPORT bool initFile(const std::string & filename);
-  /// \brief Load Model given the name of a parameter on the parameter server
-  // URDF_EXPORT bool initParam(const std::string & param);
-  /// \brief Load Model given the name of parameter on parameter server using provided nodehandle
-  // URDF_EXPORT bool initParamWithNodeHandle(const std::string & param,
-  //   const ros::NodeHandle & nh = ros::NodeHandle());
-  /// \brief Load Model from a XML-string
-  URDF_EXPORT bool initString(const std::string & xmlstring);
+  virtual ~URDFXMLParser() = default;
 
-private:
-  std::unique_ptr<ModelImplementation> impl_;
+  urdf::ModelInterfaceSharedPtr parse(const std::string& xml_string) override;
+
+  size_t might_handle(const std::string & data) override;
 };
 
-// shared_ptr declarations moved to urdf/urdfdom_compatibility.h to allow for
-// std::shared_ptrs in latest version
+urdf::ModelInterfaceSharedPtr URDFXMLParser::parse(const std::string &xml_string)
+{
+  return urdf::parseURDF(xml_string);
+}
 
+size_t URDFXMLParser::might_handle(const std::string &data)
+{
+  // probably a urdf file if <robot is near the start of the document
+  return data.find("<robot");
+}
 }  // namespace urdf
 
-#endif  // URDF__MODEL_H_
+#include <pluginlib/class_list_macros.hpp>  // NOLINT
+PLUGINLIB_EXPORT_CLASS(urdf::URDFXMLParser, urdf::URDFParser)

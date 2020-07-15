@@ -1,13 +1,20 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.12.2)
 project(urdf_parser_plugin)
 
-find_package(catkin REQUIRED)
+find_package(ament_cmake_ros REQUIRED)
 find_package(urdfdom_headers REQUIRED)
 
-catkin_package(
-  INCLUDE_DIRS include
-  DEPENDS urdfdom_headers 
+# Create and export a header-only target
+add_library(urdf_parser_plugin INTERFACE)
+target_include_directories(urdf_parser_plugin INTERFACE
+  $<INSTALL_INTERFACE:include>
+)
+install(TARGETS urdf_parser_plugin EXPORT urdf_parser_plugin-export)
+ament_export_targets(urdf_parser_plugin-export)
+
+install(
+  DIRECTORY include/
+  DESTINATION include
 )
 
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+ament_package()
