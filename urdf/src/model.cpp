@@ -70,6 +70,8 @@ Model::Model()
 
 Model::~Model()
 {
+  clear();
+  impl_.reset();
 }
 
 

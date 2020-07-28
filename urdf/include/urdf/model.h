@@ -59,7 +59,7 @@ public:
   Model();
 
   URDF_EXPORT
-  virtual ~Model();
+  ~Model();
 
   /// \brief Load Model from TiXMLElement
   [[deprecated("use initString instead")]]
