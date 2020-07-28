@@ -74,7 +74,6 @@ Model::~Model()
   impl_.reset();
 }
 
-
 bool Model::initFile(const std::string & filename)
 {
   // get the entire file
