@@ -34,25 +34,25 @@
 
 /* Author: Wim Meeussen */
 
+#include "urdf/model.h"
+#include <urdf_parser_plugin/parser.h>
+#include <pluginlib/class_loader.hpp>
+
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "urdf/model.h"
-
-/* we include the default parser for plain URDF files;
-   other parsers are loaded via plugins (if available) */
-#include <urdf_parser_plugin/parser.h>
-#include <pluginlib/class_loader.hpp>
 
 namespace urdf
 {
 class ModelImplementation
 {
 public:
-  ModelImplementation() : loader_("urdf_parser_plugin", "urdf::URDFParser")
+  ModelImplementation()
+  : loader_("urdf_parser_plugin", "urdf::URDFParser")
   {
   }
 
@@ -63,7 +63,8 @@ public:
 };
 
 
-Model::Model() : impl_(new ModelImplementation)
+Model::Model()
+: impl_(new ModelImplementation)
 {
 }
 
@@ -163,7 +164,7 @@ bool Model::initString(const std::string & data)
         best_plugin_name = plugin_name;
       }
     }
-  };
+  }
 
   if (!best_plugin) {
     fprintf(stderr, "No plugin found for given robot description.\n");

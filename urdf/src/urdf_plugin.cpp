@@ -35,27 +35,28 @@
 #include <urdf_parser/urdf_parser.h>
 #include <urdf_parser_plugin/parser.h>
 
+#include <string>
+
 namespace urdf
 {
 class URDFXMLParser : public urdf::URDFParser
 {
 public:
-
   URDFXMLParser() = default;
 
   virtual ~URDFXMLParser() = default;
 
-  urdf::ModelInterfaceSharedPtr parse(const std::string& xml_string) override;
+  urdf::ModelInterfaceSharedPtr parse(const std::string & xml_string) override;
 
   size_t might_handle(const std::string & data) override;
 };
 
-urdf::ModelInterfaceSharedPtr URDFXMLParser::parse(const std::string &xml_string)
+urdf::ModelInterfaceSharedPtr URDFXMLParser::parse(const std::string & xml_string)
 {
   return urdf::parseURDF(xml_string);
 }
 
-size_t URDFXMLParser::might_handle(const std::string &data)
+size_t URDFXMLParser::might_handle(const std::string & data)
 {
   // probably a urdf file if <robot is near the start of the document
   return data.find("<robot");
