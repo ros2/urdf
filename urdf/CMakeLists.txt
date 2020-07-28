@@ -76,6 +76,7 @@ install(DIRECTORY include/${PROJECT_NAME}/
 if(BUILD_TESTING)
   find_package(ament_cmake_cppcheck REQUIRED)
   find_package(ament_cmake_cpplint REQUIRED)
+  find_package(ament_cmake_google_benchmark REQUIRED)
   find_package(ament_cmake_lint_cmake REQUIRED)
   find_package(ament_cmake_uncrustify REQUIRED)
   # This forces cppcheck to consider all files in this project to be C++,
@@ -85,6 +86,13 @@ if(BUILD_TESTING)
   ament_cpplint()
   ament_lint_cmake()
   ament_uncrustify(LANGUAGE "C++")
+
+  ament_add_google_benchmark(plugin_overhead
+    test/benchmark_plugin_overhead.cpp
+  )
+  target_link_libraries(plugin_overhead
+    urdf
+  )
 endif()
 
 ament_export_libraries(${PROJECT_NAME})
