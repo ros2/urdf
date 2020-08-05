@@ -38,6 +38,7 @@
 #include <urdf_parser_plugin/parser.h>
 #include <pluginlib/class_loader.hpp>
 
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -155,15 +156,19 @@ bool Model::initString(const std::string & data)
 
   // Figure out what plugins might handle this format
   for (const std::string & plugin_name : impl_->loader_.getDeclaredClasses()) {
-    pluginlib::UniquePtr<urdf::URDFParser> plugin_instance =
-      impl_->loader_.createUniqueInstance(plugin_name);
-    if (plugin_instance) {
-      size_t score = plugin_instance->might_handle(data);
-      if (score < best_score) {
-        best_score = score;
-        best_plugin = std::move(plugin_instance);
-        best_plugin_name = plugin_name;
-      }
+    pluginlib::UniquePtr<urdf::URDFParser> plugin_instance;
+    try {
+      plugin_instance = impl_->loader_.createUniqueInstance(plugin_name);
+    } catch (const pluginlib::CreateClassException & exec) {
+      fprintf(stderr, "Failed to load urdf_parser_plugin [%s]\n", plugin_name.c_str());
+      continue;
+    }
+    assert(plugin_instance);
+    size_t score = plugin_instance->might_handle(data);
+    if (score < best_score) {
+      best_score = score;
+      best_plugin = std::move(plugin_instance);
+      best_plugin_name = plugin_name;
     }
   }
 
