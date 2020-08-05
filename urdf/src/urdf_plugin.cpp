@@ -32,9 +32,11 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
+#include <tinyxml2.h>
 #include <urdf_parser/urdf_parser.h>
 #include <urdf_parser_plugin/parser.h>
 
+#include <limits>
 #include <string>
 
 namespace urdf
@@ -58,7 +60,21 @@ urdf::ModelInterfaceSharedPtr URDFXMLParser::parse(const std::string & xml_strin
 
 size_t URDFXMLParser::might_handle(const std::string & data)
 {
-  // probably a urdf file if <robot is near the start of the document
+  tinyxml2::XMLDocument doc;
+  const tinyxml2::XMLError error = doc.Parse(data.c_str());
+  if (error == tinyxml2::XML_SUCCESS) {
+    // Since it's an XML document it must have `<robot>` as the first tag
+    const tinyxml2::XMLElement * root = doc.RootElement();
+    if (std::string("robot") != root->Name()) {
+      std::cout << "'" << root->Name() << "'\n";
+      return std::numeric_limits<size_t>::max();
+    }
+  }
+
+  // Possiblities:
+  //  1) It is not an XML based robot description
+  //  2) It is an XML based robot description, but there's an XML syntax error
+  //  3) It is a URDF XML with correct XML syntax
   return data.find("<robot");
 }
 }  // namespace urdf
