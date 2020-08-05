@@ -17,7 +17,6 @@
   <url type="bugtracker">https://github.com/ros2/urdf/issues</url>
 
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
-  <buildtool_export_depend>ament_cmake_ros</buildtool_export_depend>
   <build_depend>liburdfdom-headers-dev</build_depend>
   <exec_depend>liburdfdom-headers-dev</exec_depend>
 
