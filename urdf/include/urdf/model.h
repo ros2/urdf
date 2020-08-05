@@ -49,7 +49,7 @@
 namespace urdf
 {
 
-// Forward Declaration
+// PIMPL Forward Declaration
 class ModelImplementation;
 
 /// \brief Populates itself based on a robot descripton
