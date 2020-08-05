@@ -52,6 +52,12 @@ namespace urdf
 // Forward Declaration
 class ModelImplementation;
 
+/// \brief Populates itself based on a robot descripton
+///
+/// This class uses `urdf_parser_plugin` to parse the given robot description.
+/// The picked plugin is the one that reports the most confident score.
+/// There is no way to override this choice except by uninstalling undesirable
+/// parser plugins.
 class Model : public ModelInterface
 {
 public:
