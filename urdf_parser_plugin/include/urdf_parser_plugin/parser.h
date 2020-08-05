@@ -39,6 +39,8 @@
 
 #include <urdf_world/types.h>
 
+#include <string>
+
 namespace urdf
 {
 
