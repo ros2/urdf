@@ -180,15 +180,16 @@ bool Model::initString(const std::string & data)
   model = best_plugin->parse(data);
 
   // copy data from model into this object
-  if (model) {
-    this->links_ = model->links_;
-    this->joints_ = model->joints_;
-    this->materials_ = model->materials_;
-    this->name_ = model->name_;
-    this->root_link_ = model->root_link_;
-    return true;
+  if (!model) {
+    fprintf(stderr, "Failed to parse robot description using: %s\n", best_plugin_name.c_str());
+    return false;
   }
-  fprintf(stderr, "Failed to parse robot description using: %s\n", best_plugin_name.c_str());
-  return false;
+
+  this->links_ = model->links_;
+  this->joints_ = model->joints_;
+  this->materials_ = model->materials_;
+  this->name_ = model->name_;
+  this->root_link_ = model->root_link_;
+  return true;
 }
 }  // namespace urdf
