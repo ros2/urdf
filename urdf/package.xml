@@ -25,8 +25,8 @@
   <build_depend>tinyxml</build_depend>
   <build_depend>tinyxml_vendor</build_depend>
   <build_depend>urdfdom</build_depend>
-  <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
   <build_depend>urdf_parser_plugin</build_depend>
+  <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
   <build_depend>urdfdom_headers</build_depend>
 
   <exec_depend>pluginlib</exec_depend>
