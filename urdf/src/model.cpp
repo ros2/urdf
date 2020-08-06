@@ -163,7 +163,12 @@ bool Model::initString(const std::string & data)
       fprintf(stderr, "Failed to load urdf_parser_plugin [%s]\n", plugin_name.c_str());
       continue;
     }
-    assert(plugin_instance);
+    if (!plugin_instance) {
+      // Debug mode
+      assert(plugin_instance);
+      // Release mode
+      continue;
+    }
     size_t score = plugin_instance->might_handle(data);
     if (score < best_score) {
       best_score = score;
