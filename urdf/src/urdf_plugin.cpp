@@ -66,7 +66,6 @@ size_t URDFXMLParser::might_handle(const std::string & data)
     // Since it's an XML document it must have `<robot>` as the first tag
     const tinyxml2::XMLElement * root = doc.RootElement();
     if (std::string("robot") != root->Name()) {
-      std::cout << "'" << root->Name() << "'\n";
       return std::numeric_limits<size_t>::max();
     }
   }
