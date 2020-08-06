@@ -61,7 +61,8 @@ public:
 
   /// \brief Indicate if data is meant to be parsed by this parser
   /// \return confidence that the data is meant for this parser, where smaller
-  ///         values mean more confident, and 0 is absolute certainty.
+  ///         values mean more confidence, 0 is absolute certainty, and
+  ///         std::numeric_limits<size_t>::max() is no confidence.
   virtual size_t might_handle(const std::string & data) = 0;
 };
   
