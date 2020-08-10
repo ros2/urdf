@@ -4,8 +4,6 @@ project(urdf)
 find_package(ament_cmake_ros REQUIRED)
 find_package(urdfdom REQUIRED)
 find_package(urdfdom_headers REQUIRED)
-find_package(tinyxml_vendor REQUIRED)
-find_package(TinyXML REQUIRED)
 
 # Find version components
 if(NOT urdfdom_headers_VERSION)
@@ -34,8 +32,7 @@ target_include_directories(${PROJECT_NAME}
 )
 ament_target_dependencies(${PROJECT_NAME}
   urdfdom
-  urdfdom_headers
-  TinyXML)
+  urdfdom_headers)
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "URDF_BUILDING_DLL")
@@ -70,8 +67,6 @@ endif()
 ament_export_libraries(${PROJECT_NAME})
 ament_export_targets(${PROJECT_NAME})
 ament_export_include_directories(include)
-ament_export_dependencies(tinyxml_vendor)
-ament_export_dependencies(TinyXML)
 ament_export_dependencies(urdfdom)
 ament_export_dependencies(urdfdom_headers)
 ament_package()
