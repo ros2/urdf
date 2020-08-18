@@ -41,12 +41,12 @@
 
 namespace urdf
 {
-class URDFXMLParser : public urdf::URDFParser
+class URDFXMLParser final : public urdf::URDFParser
 {
 public:
   URDFXMLParser() = default;
 
-  virtual ~URDFXMLParser() = default;
+  ~URDFXMLParser() = default;
 
   urdf::ModelInterfaceSharedPtr parse(const std::string & xml_string) override;
 
