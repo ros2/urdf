@@ -159,7 +159,7 @@ bool Model::initString(const std::string & data)
     pluginlib::UniquePtr<urdf::URDFParser> plugin_instance;
     try {
       plugin_instance = impl_->loader_.createUniqueInstance(plugin_name);
-    } catch (const pluginlib::CreateClassException & exec) {
+    } catch (const pluginlib::CreateClassException &) {
       fprintf(stderr, "Failed to load urdf_parser_plugin [%s]\n", plugin_name.c_str());
       continue;
     }
