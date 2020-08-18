@@ -9,6 +9,9 @@ add_library(urdf_parser_plugin INTERFACE)
 target_include_directories(urdf_parser_plugin INTERFACE
   $<INSTALL_INTERFACE:include>
 )
+ament_target_dependencies(urdf_parser_plugin INTERFACE
+  "urdfdom_headers"
+)
 install(TARGETS urdf_parser_plugin EXPORT urdf_parser_plugin-export)
 ament_export_targets(urdf_parser_plugin-export)
 
