@@ -49,7 +49,7 @@ if(APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
-add_library(urdf_xml_parser MODULE
+add_library(urdf_xml_parser SHARED
   src/urdf_plugin.cpp
 )
 target_link_libraries(urdf_xml_parser
