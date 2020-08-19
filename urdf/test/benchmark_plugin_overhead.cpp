@@ -63,7 +63,10 @@ const char test_xml[] =
 static void BM_no_plugin(benchmark::State & state)
 {
   for (auto _ : state) {
-    urdf::parseURDF(test_xml);
+    if (nullptr == urdf::parseURDF(test_xml)) {
+      state.SkipWithError("Failed to read xml");
+      break;
+    }
   }
 }
 
@@ -71,7 +74,10 @@ static void BM_with_plugin(benchmark::State & state)
 {
   for (auto _ : state) {
     urdf::Model m;
-    m.initString(test_xml);
+    if (!m.initString(test_xml)) {
+      state.SkipWithError("Failed to read xml");
+      break;
+    }
   }
 }
 
