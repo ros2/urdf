@@ -87,38 +87,22 @@ if(BUILD_TESTING)
   ament_lint_cmake()
   ament_uncrustify(LANGUAGE "C++")
 
-  # Write files to enable pluginlib to find urdf_xml_parser in build folder
-  set(fake_urdf_prefix "${CMAKE_CURRENT_BINARY_DIR}/fake_urdf_install")
-  # Copy urdf_xml_parser to fake prefix lib/ and bin/
-  file(MAKE_DIRECTORY "${fake_urdf_prefix}/lib")
-  file(MAKE_DIRECTORY "${fake_urdf_prefix}/bin")
-  add_custom_command(TARGET urdf_xml_parser
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:urdf_xml_parser>
-    "${fake_urdf_prefix}/lib/"
+  pluginlib_enable_plugin_testing(
+    CMAKE_TARGET_VAR mock_install_target
+    AMENT_PREFIX_PATH_VAR mock_install_path
+    PLUGIN_CATEGORY "urdf_parser"
+    PLUGIN_DESCRIPTIONS "urdf_parser_description.xml"
+    PLUGIN_LIBRARIES urdf_xml_parser
   )
-  add_custom_command(TARGET urdf_xml_parser
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:urdf_xml_parser>
-    "${fake_urdf_prefix}/bin/"
-  )
-  # Fake install plugin description file
-  file(COPY "urdf_parser_description.xml" DESTINATION "${fake_urdf_prefix}/share/urdf/")
-  # Fake install package.xml
-  configure_file("package.xml" "${fake_urdf_prefix}/share/urdf/package.xml" COPYONLY)
-  # Fake install entry in ament_index telling pluginlib where to find plugin description
-  file(WRITE "${fake_urdf_prefix}/share/ament_index/resource_index/urdf_parser_plugin__pluginlib__plugin/urdf"
-    "share/urdf/urdf_parser_description.xml\n")
-  # Fake install entry in ament_index declaring this a package
-  file(WRITE "${fake_urdf_prefix}/share/ament_index/resource_index/packages/urdf" "")
 
   ament_add_google_benchmark(plugin_overhead
     test/benchmark_plugin_overhead.cpp
-    APPEND_ENV AMENT_PREFIX_PATH="${fake_urdf_prefix}"
+    APPEND_ENV AMENT_PREFIX_PATH="${mock_install_path}"
   )
   target_link_libraries(plugin_overhead
     urdf
   )
+  add_dependencies(plugin_overhead "${mock_install_target}")
 endif()
 
 ament_export_libraries(${PROJECT_NAME})
