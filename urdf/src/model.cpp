@@ -59,6 +59,8 @@ public:
 
   ~ModelImplementation() = default;
 
+  pluginlib::UniquePtr<urdf::URDFParser> load_plugin(const std::string & plugin_name);
+
   // Loader used to get plugins
   pluginlib::ClassLoader<urdf::URDFParser> loader_;
 };
@@ -146,6 +148,18 @@ bool Model::initXml(TiXmlElement * robot_xml)
   return Model::initString(ss.str());
 }
 
+pluginlib::UniquePtr<urdf::URDFParser>
+ModelImplementation::load_plugin(const std::string & plugin_name)
+{
+  pluginlib::UniquePtr<urdf::URDFParser> plugin_instance;
+  try {
+    plugin_instance = loader_.createUniqueInstance(plugin_name);
+  } catch (const pluginlib::CreateClassException &) {
+    fprintf(stderr, "Failed to load urdf_parser_plugin [%s]\n", plugin_name.c_str());
+  }
+  return std::move(plugin_instance);
+}
+
 bool Model::initString(const std::string & data)
 {
   urdf::ModelInterfaceSharedPtr model;
@@ -156,13 +170,7 @@ bool Model::initString(const std::string & data)
 
   // Figure out what plugins might handle this format
   for (const std::string & plugin_name : impl_->loader_.getDeclaredClasses()) {
-    pluginlib::UniquePtr<urdf::URDFParser> plugin_instance;
-    try {
-      plugin_instance = impl_->loader_.createUniqueInstance(plugin_name);
-    } catch (const pluginlib::CreateClassException &) {
-      fprintf(stderr, "Failed to load urdf_parser_plugin [%s]\n", plugin_name.c_str());
-      continue;
-    }
+    pluginlib::UniquePtr<urdf::URDFParser> plugin_instance = impl_->load_plugin(plugin_name);
     if (!plugin_instance) {
       // Debug mode
       assert(plugin_instance);
@@ -175,6 +183,12 @@ bool Model::initString(const std::string & data)
       best_plugin = std::move(plugin_instance);
       best_plugin_name = plugin_name;
     }
+  }
+
+  if (best_score >= data.size()) {
+    // No plugin was confident ... try urdf anyways
+    best_plugin_name = "urdf_xml_parser/URDFXMLParser";
+    best_plugin = impl_->load_plugin(best_plugin_name);
   }
 
   if (!best_plugin) {
