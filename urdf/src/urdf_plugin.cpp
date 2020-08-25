@@ -36,7 +36,6 @@
 #include <urdf_parser/urdf_parser.h>
 #include <urdf_parser_plugin/parser.h>
 
-#include <limits>
 #include <string>
 
 namespace urdf
@@ -66,7 +65,7 @@ size_t URDFXMLParser::might_handle(const std::string & data)
     // Since it's an XML document it must have `<robot>` as the first tag
     const tinyxml2::XMLElement * root = doc.RootElement();
     if (std::string("robot") != root->Name()) {
-      return std::numeric_limits<size_t>::max();
+      return data.size();
     }
   }
 
