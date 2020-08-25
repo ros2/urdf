@@ -60,9 +60,14 @@ public:
   virtual urdf::ModelInterfaceSharedPtr parse(const std::string & data) = 0;
 
   /// \brief Indicate if data is meant to be parsed by this parser
-  /// \return confidence that the data is meant for this parser, where smaller
-  ///         values mean more confidence, 0 is absolute certainty, and
-  ///         std::numeric_limits<size_t>::max() is no confidence.
+  /// \return The position in the string that the plugin became confident the
+  ///         data is intended to be parsed by it.
+  ///         For example, the plugin parsing COLLADA files might return the
+  ///         position in the string that the '<COLLADA>' xml tag was found.
+  ///         Smaller values are interpretted as more confidence, and the
+  ///         plugin with the smallest value is used to parse the data.
+  ///         If a plugin believes data is not meant for it, then it should
+  ///         return a value greater than or equal to data.size().
   virtual size_t might_handle(const std::string & data) = 0;
 };
   
