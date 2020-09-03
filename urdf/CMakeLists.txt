@@ -27,6 +27,7 @@ install(FILES ${generated_compat_header} DESTINATION include/${PROJECT_NAME})
 add_library(${PROJECT_NAME} src/model.cpp)
 target_include_directories(${PROJECT_NAME}
   PUBLIC
+  ${urdfdom_INCLUDE_DIRS}
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include>"
 )
