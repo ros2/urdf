@@ -6,12 +6,10 @@ find_package(pluginlib REQUIRED)
 find_package(urdf_parser_plugin REQUIRED)
 find_package(urdfdom REQUIRED)
 find_package(urdfdom_headers REQUIRED)
-find_package(tinyxml_vendor REQUIRED)
-find_package(TinyXML REQUIRED)
 
 # Find version components
 if(NOT urdfdom_headers_VERSION)
-set(urdfdom_headers_VERSION "0.0.0")
+  set(urdfdom_headers_VERSION "0.0.0")
 endif()
 string(REGEX REPLACE "^([0-9]+).*" "\\1" URDFDOM_HEADERS_MAJOR_VERSION "${urdfdom_headers_VERSION}")
 string(REGEX REPLACE "^[0-9]+\\.([0-9]+).*" "\\1" URDFDOM_HEADERS_MINOR_VERSION "${urdfdom_headers_VERSION}")
@@ -39,7 +37,10 @@ ament_target_dependencies(${PROJECT_NAME}
   urdfdom
   urdfdom_headers
   pluginlib
-  TinyXML)
+)
+target_link_libraries(${PROJECT_NAME}
+  urdfdom::urdfdom_model
+)
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "URDF_BUILDING_DLL")
@@ -109,8 +110,6 @@ ament_export_libraries(${PROJECT_NAME})
 ament_export_targets(${PROJECT_NAME})
 ament_export_include_directories(include)
 ament_export_dependencies(pluginlib)
-ament_export_dependencies(tinyxml_vendor)
-ament_export_dependencies(TinyXML)
 ament_export_dependencies(urdf_parser_plugin)
 ament_export_dependencies(urdfdom)
 ament_export_dependencies(urdfdom_headers)
