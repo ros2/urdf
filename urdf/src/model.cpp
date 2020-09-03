@@ -72,58 +72,6 @@ bool Model::initFile(const std::string & filename)
   }
 }
 
-/*
-bool Model::initParam(const std::string & param)
-{
-  return initParamWithNodeHandle(param, ros::NodeHandle());
-}
-
-bool Model::initParamWithNodeHandle(const std::string & param, const ros::NodeHandle & nh)
-{
-  std::string xml_string;
-
-  // gets the location of the robot description on the parameter server
-  std::string full_param;
-  if (!nh.searchParam(param, full_param)){
-    ROS_ERROR("Could not find parameter %s on parameter server", param.c_str());
-    return false;
-  }
-
-  // read the robot description from the parameter server
-  if (!nh.getParam(full_param, xml_string)){
-    ROS_ERROR("Could not read parameter %s on parameter server", full_param.c_str());
-    return false;
-  }
-  return Model::initString(xml_string);
-}
-*/
-
-bool Model::initXml(TiXmlDocument * xml_doc)
-{
-  if (!xml_doc) {
-    fprintf(stderr, "Could not parse the xml document.\n");
-    return false;
-  }
-
-  std::stringstream ss;
-  ss << *xml_doc;
-
-  return Model::initString(ss.str());
-}
-
-bool Model::initXml(TiXmlElement * robot_xml)
-{
-  if (!robot_xml) {
-    fprintf(stderr, "Could not parse the xml element.\n");
-    return false;
-  }
-
-  std::stringstream ss;
-  ss << (*robot_xml);
-
-  return Model::initString(ss.str());
-}
-
 bool Model::initString(const std::string & xml_string)
 {
   urdf::ModelInterfaceSharedPtr model;

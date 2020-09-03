@@ -39,7 +39,6 @@
 
 #include <string>
 
-#include "tinyxml.h"  // NOLINT
 #include "urdf_model/model.h"
 
 #include "urdf/urdfdom_compatibility.h"
@@ -51,19 +50,8 @@ namespace urdf
 class Model : public ModelInterface
 {
 public:
-  /// \brief Load Model from TiXMLElement
-  [[deprecated("use initString instead")]]
-  URDF_EXPORT bool initXml(TiXmlElement * xml);
-  /// \brief Load Model from TiXMLDocument
-  [[deprecated("use initString instead")]]
-  URDF_EXPORT bool initXml(TiXmlDocument * xml);
   /// \brief Load Model given a filename
   URDF_EXPORT bool initFile(const std::string & filename);
-  /// \brief Load Model given the name of a parameter on the parameter server
-  // URDF_EXPORT bool initParam(const std::string & param);
-  /// \brief Load Model given the name of parameter on parameter server using provided nodehandle
-  // URDF_EXPORT bool initParamWithNodeHandle(const std::string & param,
-  //   const ros::NodeHandle & nh = ros::NodeHandle());
   /// \brief Load Model from a XML-string
   URDF_EXPORT bool initString(const std::string & xmlstring);
 };
