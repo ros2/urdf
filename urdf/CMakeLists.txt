@@ -30,11 +30,8 @@ target_include_directories(${PROJECT_NAME}
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include>"
 )
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PUBLIC
   urdfdom::urdfdom_model
-  urdfdom::urdfdom_model_state
-  urdfdom::urdfdom_sensor
-  urdfdom::urdfdom_world
 )
 
 if(WIN32)
