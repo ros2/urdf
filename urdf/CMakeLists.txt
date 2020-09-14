@@ -7,7 +7,7 @@ find_package(urdfdom_headers REQUIRED)
 
 # Find version components
 if(NOT urdfdom_headers_VERSION)
-set(urdfdom_headers_VERSION "0.0.0")
+  set(urdfdom_headers_VERSION "0.0.0")
 endif()
 string(REGEX REPLACE "^([0-9]+).*" "\\1" URDFDOM_HEADERS_MAJOR_VERSION "${urdfdom_headers_VERSION}")
 string(REGEX REPLACE "^[0-9]+\\.([0-9]+).*" "\\1" URDFDOM_HEADERS_MINOR_VERSION "${urdfdom_headers_VERSION}")
@@ -27,13 +27,14 @@ install(FILES ${generated_compat_header} DESTINATION include/${PROJECT_NAME})
 add_library(${PROJECT_NAME} src/model.cpp)
 target_include_directories(${PROJECT_NAME}
   PUBLIC
-  ${urdfdom_INCLUDE_DIRS}
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include>"
 )
-ament_target_dependencies(${PROJECT_NAME}
-  urdfdom
-  urdfdom_headers
+target_link_libraries(${PROJECT_NAME}
+  urdfdom::urdfdom_model
+  urdfdom::urdfdom_model_state
+  urdfdom::urdfdom_sensor
+  urdfdom::urdfdom_world
 )
 
 if(WIN32)
@@ -69,6 +70,5 @@ endif()
 ament_export_libraries(${PROJECT_NAME})
 ament_export_targets(${PROJECT_NAME})
 ament_export_include_directories(include)
-ament_export_dependencies(urdfdom)
-ament_export_dependencies(urdfdom_headers)
+ament_export_dependencies(urdfdom urdfdom_headers)
 ament_package()
