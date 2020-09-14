@@ -165,7 +165,7 @@ bool Model::initString(const std::string & data)
   urdf::ModelInterfaceSharedPtr model;
 
   size_t best_score = std::numeric_limits<size_t>::max();
-  pluginlib::UniquePtr<urdf::URDFParser> best_plugin;
+  auto best_plugin = pluginlib::UniquePtr<urdf::URDFParser>{nullptr};
   std::string best_plugin_name;
 
   // Figure out what plugins might handle this format
