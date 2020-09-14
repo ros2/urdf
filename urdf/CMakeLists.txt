@@ -31,6 +31,7 @@ target_include_directories(${PROJECT_NAME}
   "$<INSTALL_INTERFACE:include>"
 )
 target_link_libraries(${PROJECT_NAME} PUBLIC
+  urdfdom_headers::urdfdom_headers  # TODO urdfdom::urdfdom_model should take care of this transitive dependency
   urdfdom::urdfdom_model
 )
 
