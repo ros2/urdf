@@ -49,7 +49,7 @@
 
 namespace urdf
 {
-class ModelImplementation
+class ModelImplementation final
 {
 public:
   ModelImplementation()
