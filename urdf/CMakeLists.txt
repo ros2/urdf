@@ -6,6 +6,8 @@ find_package(pluginlib REQUIRED)
 find_package(urdf_parser_plugin REQUIRED)
 find_package(urdfdom REQUIRED)
 find_package(urdfdom_headers REQUIRED)
+find_package(tinyxml2_vendor REQUIRED)
+find_package(TinyXML2 REQUIRED)
 
 # Find version components
 if(NOT urdfdom_headers_VERSION)
@@ -58,6 +60,7 @@ target_link_libraries(urdf_xml_parser
 )
 ament_target_dependencies(urdf_xml_parser
   "pluginlib"
+  "TinyXML2"
   "urdf_parser_plugin"
 )
 

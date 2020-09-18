@@ -21,12 +21,14 @@
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
   <build_depend>pluginlib</build_depend>
+  <build_depend>tinyxml2_vendor</build_depend>
   <build_depend>urdfdom</build_depend>
   <build_depend>urdf_parser_plugin</build_depend>
   <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
   <build_depend>urdfdom_headers</build_depend>
 
   <exec_depend>pluginlib</exec_depend>
+  <exec_depend>tinyxml2_vendor</exec_depend>
   <exec_depend>urdfdom</exec_depend>
   <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
   <exec_depend>urdfdom_headers</exec_depend>
