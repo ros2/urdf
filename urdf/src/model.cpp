@@ -105,7 +105,7 @@ ModelImplementation::load_plugin(const std::string & plugin_name)
   } catch (const pluginlib::CreateClassException &) {
     fprintf(stderr, "Failed to load urdf_parser_plugin [%s]\n", plugin_name.c_str());
   }
-  return std::move(plugin_instance);
+  return plugin_instance;
 }
 
 bool Model::initString(const std::string & data)
