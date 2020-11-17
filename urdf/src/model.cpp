@@ -46,6 +46,13 @@
 #include <utility>
 #include <vector>
 
+// Windows has preprocessor defines for "min" and "max", which can cause
+// problems when things like std::numeric_limits<int>::max are used.  This
+// macro is used to defeat the macro matching logic and hence workaround the
+// issue.  The idea comes from:
+// https://stackoverflow.com/questions/11544073/how-do-i-deal-with-the-max-macro-in-windows-h-colliding-with-max-in-std/11550864#11550864
+#define PREVENT_WINDOWS_MIN_MAX
+
 
 namespace urdf
 {
@@ -112,7 +119,7 @@ bool Model::initString(const std::string & data)
 {
   urdf::ModelInterfaceSharedPtr model;
 
-  size_t best_score = std::numeric_limits<size_t>::max();
+  size_t best_score = std::numeric_limits<size_t>::max PREVENT_WINDOWS_MIN_MAX();
   auto best_plugin = pluginlib::UniquePtr<urdf::URDFParser>{nullptr};
   std::string best_plugin_name;
 
