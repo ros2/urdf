@@ -46,13 +46,15 @@
 #include <utility>
 #include <vector>
 
-// Windows has preprocessor defines for "min" and "max", which can cause
-// problems when things like std::numeric_limits<int>::max are used.  This
-// macro is used to defeat the macro matching logic and hence workaround the
-// issue.  The idea comes from:
-// https://stackoverflow.com/questions/11544073/how-do-i-deal-with-the-max-macro-in-windows-h-colliding-with-max-in-std/11550864#11550864
-#define PREVENT_WINDOWS_MIN_MAX
-
+// Windows has preprocessor defines for "min" and "max", which conflict with
+// several things (one of them being std::numeric_limits<T>::max()).  Since
+// we know we aren't going to use those macros, we save them off at the top of
+// the file (with "pragma push_macro"), use whatever variants of "min" and "max"
+// we need, and the restore the macros at the end of the file (with "pragma pop_macro")
+#ifdef _WIN32
+#pragma push_macro("max")
+#undef max
+#endif
 
 namespace urdf
 {
@@ -119,7 +121,7 @@ bool Model::initString(const std::string & data)
 {
   urdf::ModelInterfaceSharedPtr model;
 
-  size_t best_score = std::numeric_limits<size_t>::max PREVENT_WINDOWS_MIN_MAX();
+  size_t best_score = std::numeric_limits<size_t>::max();
   auto best_plugin = pluginlib::UniquePtr<urdf::URDFParser>{nullptr};
   std::string best_plugin_name;
 
@@ -167,3 +169,7 @@ bool Model::initString(const std::string & data)
   return true;
 }
 }  // namespace urdf
+
+#ifdef _WIN32
+#pragma pop_macro("max")
+#endif
