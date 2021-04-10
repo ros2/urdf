@@ -94,6 +94,7 @@ if(BUILD_TESTING)
   ament_lint_cmake()
   ament_uncrustify(LANGUAGE "C++")
 
+  include("${pluginlib_DIR}/pluginlib_enable_plugin_testing.cmake")
   pluginlib_enable_plugin_testing(
     CMAKE_TARGET_VAR mock_install_target
     AMENT_PREFIX_PATH_VAR mock_install_path
