@@ -14,6 +14,7 @@ ament_target_dependencies(urdf_parser_plugin INTERFACE
 )
 install(TARGETS urdf_parser_plugin EXPORT urdf_parser_plugin-export)
 ament_export_targets(urdf_parser_plugin-export)
+ament_export_dependencies(urdfdom_headers)
 
 install(
   DIRECTORY include/
