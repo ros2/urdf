@@ -43,9 +43,6 @@ ament_target_dependencies(${PROJECT_NAME}
   urdfdom_headers
   pluginlib
 )
-target_link_libraries(${PROJECT_NAME}
-  urdfdom::urdfdom_model
-)
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "URDF_BUILDING_DLL")
