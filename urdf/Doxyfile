@@ -2,7 +2,7 @@
 
 PROJECT_NAME           = "urdf"
 PROJECT_NUMBER         = ros2
-PROJECT_BRIEF          = "C++ parser for Unified Robot Description"
+PROJECT_BRIEF          = "C++ parser for the Unified Robot Description Format (URDF)"
 
 INPUT                  = ./include
 RECURSIVE              = YES
