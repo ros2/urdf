@@ -12,6 +12,14 @@ target_include_directories(urdf_parser_plugin INTERFACE
 ament_target_dependencies(urdf_parser_plugin INTERFACE
   "urdfdom_headers"
 )
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  set(ament_cmake_cppcheck_LANGUAGE "c++")
+  set(ament_cmake_uncrustify_ADDITIONAL_ARGS LANGUAGE "C++")
+  ament_lint_auto_find_test_dependencies()
+endif()
+
 install(TARGETS urdf_parser_plugin EXPORT urdf_parser_plugin-export)
 ament_export_targets(urdf_parser_plugin-export)
 ament_export_dependencies(urdfdom_headers)
