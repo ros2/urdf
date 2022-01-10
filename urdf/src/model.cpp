@@ -35,8 +35,6 @@
 /* Author: Wim Meeussen */
 
 #include "urdf/model.h"
-#include <urdf_parser_plugin/parser.h>
-#include <pluginlib/class_loader.hpp>
 
 #include <cassert>
 #include <fstream>
@@ -45,6 +43,9 @@
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "urdf_parser_plugin/parser.h"
+#include "pluginlib/class_loader.hpp"
 
 // Windows has preprocessor defines for "max", which conflicts with
 // several things (one of them being std::numeric_limits<T>::max()).  Since
