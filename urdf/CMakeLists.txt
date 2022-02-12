@@ -29,13 +29,13 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-install(FILES ${generated_compat_header} DESTINATION include/${PROJECT_NAME})
+install(FILES ${generated_compat_header} DESTINATION include/${PROJECT_NAME}/${PROJECT_NAME})
 
 add_library(${PROJECT_NAME} src/model.cpp)
 target_include_directories(${PROJECT_NAME}
   PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-  "$<INSTALL_INTERFACE:include>"
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
 )
 ament_target_dependencies(${PROJECT_NAME}
   urdf_parser_plugin
@@ -77,7 +77,7 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-install(DIRECTORY include/${PROJECT_NAME}/
+install(DIRECTORY include/
   DESTINATION include/${PROJECT_NAME})
 
 if(BUILD_TESTING)
@@ -112,9 +112,13 @@ if(BUILD_TESTING)
   add_dependencies(plugin_overhead "${mock_install_target}")
 endif()
 
+# Export old-style CMake variables
+ament_export_include_directories("include/${PROJECT_NAME}")
 ament_export_libraries(${PROJECT_NAME})
+
+# Export modern CMake targets
 ament_export_targets(${PROJECT_NAME})
-ament_export_include_directories(include)
+
 ament_export_dependencies(pluginlib)
 ament_export_dependencies(urdf_parser_plugin)
 ament_export_dependencies(urdfdom)

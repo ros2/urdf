@@ -7,7 +7,7 @@ find_package(urdfdom_headers REQUIRED)
 # Create and export a header-only target
 add_library(urdf_parser_plugin INTERFACE)
 target_include_directories(urdf_parser_plugin INTERFACE
-  $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
 )
 ament_target_dependencies(urdf_parser_plugin INTERFACE
   "urdfdom_headers"
@@ -26,7 +26,7 @@ ament_export_dependencies(urdfdom_headers)
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 ament_package()
