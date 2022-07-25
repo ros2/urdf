@@ -66,6 +66,11 @@ public:
   URDF_EXPORT
   ~Model();
 
+  URDF_EXPORT Model(const Model & other);
+  URDF_EXPORT Model & operator=(const Model & other);
+  URDF_EXPORT Model(Model && other) noexcept;
+  URDF_EXPORT Model & operator=(Model && other)noexcept;
+
   /// \brief Load Model given a filename
   URDF_EXPORT bool initFile(const std::string & filename);
 
