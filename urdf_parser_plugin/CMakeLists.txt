@@ -9,8 +9,8 @@ add_library(urdf_parser_plugin INTERFACE)
 target_include_directories(urdf_parser_plugin INTERFACE
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
 )
-ament_target_dependencies(urdf_parser_plugin INTERFACE
-  "urdfdom_headers"
+target_link_libraries(urdf_parser_plugin INTERFACE
+  urdfdom_headers::urdfdom_headers
 )
 
 if(BUILD_TESTING)

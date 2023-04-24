@@ -38,14 +38,13 @@ target_include_directories(${PROJECT_NAME}
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
 )
-ament_target_dependencies(${PROJECT_NAME}
-  urdf_parser_plugin
-  urdfdom
-  urdfdom_headers
-  pluginlib
-)
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PUBLIC
   urdfdom::urdfdom_model
+)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  urdf_parser_plugin::urdf_parser_plugin
+  urdfdom_headers::urdfdom_headers
+  pluginlib::pluginlib
 )
 
 if(WIN32)
@@ -59,13 +58,11 @@ endif()
 add_library(urdf_xml_parser SHARED
   src/urdf_plugin.cpp
 )
-target_link_libraries(urdf_xml_parser
+target_link_libraries(urdf_xml_parser PRIVATE
   ${PROJECT_NAME}
-)
-ament_target_dependencies(urdf_xml_parser
-  "pluginlib"
-  "TinyXML2"
-  "urdf_parser_plugin"
+  pluginlib::pluginlib
+  tinyxml2::tinyxml2
+  urdf_parser_plugin::urdf_parser_plugin
 )
 
 install(TARGETS urdf_xml_parser
