@@ -36,6 +36,8 @@
 
 #include "urdf/model.h"
 
+#include <rcutils/logging_macros.h>
+
 #include <cassert>
 #include <fstream>
 #include <iostream>
@@ -117,7 +119,8 @@ bool Model::initFile(const std::string & filename)
     xml_file.close();
     return Model::initString(xml_string);
   } else {
-    fprintf(stderr, "Could not open file [%s] for parsing.\n", filename.c_str());
+    RCUTILS_LOG_WARN_NAMED(
+      "urdf", "Could not open file [%s] for parsing.\n", filename.c_str());
     return false;
   }
 }
@@ -129,7 +132,8 @@ ModelImplementation::load_plugin(const std::string & plugin_name)
   try {
     plugin_instance = loader_.createUniqueInstance(plugin_name);
   } catch (const pluginlib::CreateClassException &) {
-    fprintf(stderr, "Failed to load urdf_parser_plugin [%s]\n", plugin_name.c_str());
+    RCUTILS_LOG_ERROR_NAMED(
+      "urdf", "Failed to load urdf_parser_plugin [%s]\n", plugin_name.c_str());
   }
   return plugin_instance;
 }
@@ -166,7 +170,8 @@ bool Model::initString(const std::string & data)
   }
 
   if (!best_plugin) {
-    fprintf(stderr, "No plugin found for given robot description.\n");
+    RCUTILS_LOG_WARN_NAMED(
+      "urdf", "No plugin found for given robot description.\n");
     return false;
   }
 
@@ -174,7 +179,8 @@ bool Model::initString(const std::string & data)
 
   // copy data from model into this object
   if (!model) {
-    fprintf(stderr, "Failed to parse robot description using: %s\n", best_plugin_name.c_str());
+    RCUTILS_LOG_WARN_NAMED(
+      "urdf", "Failed to parse robot description using: %s\n", best_plugin_name.c_str());
     return false;
   }
 
