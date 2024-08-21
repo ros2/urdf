@@ -35,6 +35,7 @@
 /* Author: Wim Meeussen */
 
 #include <cmath>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -49,7 +50,7 @@ public:
     // get root link
     urdf::LinkConstSharedPtr root_link = robot.getRoot();
     if (!root_link) {
-      fprintf(stderr, "no root link %s\n", robot.getName().c_str());
+      std::cerr << "no root link " << robot.getName() << std::endl;
       return false;
     }
 
@@ -72,9 +73,8 @@ protected:
 
   bool traverse_tree(urdf::LinkConstSharedPtr link, int level = 0)
   {
-    fprintf(
-      stderr, "Traversing tree at level %d, link size %lu\n",
-      level, link->child_links.size());
+    std::cerr << "Traversing tree at level " << level << " link size "
+              << link->child_links.size() << std::endl;
     level += 2;
     bool retval = true;
     for (std::vector<urdf::LinkSharedPtr>::const_iterator child = link->child_links.begin();
@@ -88,13 +88,13 @@ protected:
         (*child)->parent_joint->parent_to_joint_origin_transform.rotation.getRPY(roll, pitch, yaw);
 
         if (std::isnan(roll) || std::isnan(pitch) || std::isnan(yaw)) {
-          fprintf(stderr, "getRPY() returned nan!\n");
+          std::cerr << "getRPY() returned nan!" << std::endl;
           return false;
         }
         // recurse down the tree
         retval &= this->traverse_tree(*child, level);
       } else {
-        fprintf(stderr, "root link: %s has a null child!\n", link->name.c_str());
+        std::cerr << "root link: " << link->name << "has a null child!" << std::endl;
         return false;
       }
     }
@@ -110,11 +110,11 @@ TEST_P(TestParser, test) {
   std::vector<std::string> const & input = GetParam();
 
   std::string folder = _TEST_RESOURCES_DIR_PATH;
-  fprintf(stderr, "Folder %s\n", folder.c_str());
+  std::cerr << "Folder " << folder << std::endl;
   std::string file = std::string(input[0]);
   bool expect_success = (file.substr(0, 5) != "fail_");
   urdf::Model robot;
-  fprintf(stderr, "Parsing file %s, expecting %d\n", (folder + file).c_str(), expect_success);
+  std::cerr << "Parsing file " << (folder + file) << ", expecting " << expect_success << std::endl;
   if (!expect_success) {
     ASSERT_FALSE(robot.initFile(folder + file));
     return;
@@ -137,10 +137,6 @@ TEST_P(TestParser, test) {
   EXPECT_EQ(num_links, expected_num_links);
   EXPECT_EQ(robot.joints_.size(), expected_num_joints);
   EXPECT_EQ(robot.links_.size(), expected_num_links);
-
-  // test reading from parameter server
-  // ASSERT_TRUE(robot.initParam("robot_description"));
-  // ASSERT_FALSE(robot.initParam("robot_description_wim"));
 }
 
 INSTANTIATE_TEST_CASE_P(GroupTestParser, TestParser, ::testing::Values(
