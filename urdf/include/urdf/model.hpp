@@ -29,13 +29,56 @@
 
 /* Author: Wim Meeussen */
 
-#ifndef URDF__MODEL_H_
-#define URDF__MODEL_H_
+#ifndef URDF__MODEL_HPP_
+#define URDF__MODEL_HPP_
 
-#warning \
-  This header is obsolete, please include \
-  urdf/model.hpp instead
+#include <memory>
+#include <string>
 
-#include <urdf/model.hpp>
+#include "urdf_model/model.h"
 
-#endif  // URDF__MODEL_H_
+#include "urdf/urdfdom_compatibility.h"
+#include "urdf/visibility_control.hpp"
+
+namespace urdf
+{
+
+// PIMPL Forward Declaration
+class ModelImplementation;
+
+/// \brief Populates itself based on a robot descripton
+///
+/// This class uses `urdf_parser_plugin` to parse the given robot description.
+/// The chosen plugin is the one that reports the most confident score.
+/// There is no way to override this choice except by uninstalling undesirable
+/// parser plugins.
+class Model : public ModelInterface
+{
+public:
+  URDF_EXPORT
+  Model();
+
+  URDF_EXPORT
+  ~Model();
+
+  URDF_EXPORT Model(const Model & other);
+  URDF_EXPORT Model & operator=(const Model & other);
+  URDF_EXPORT Model(Model && other) noexcept;
+  URDF_EXPORT Model & operator=(Model && other)noexcept;
+
+  /// \brief Load Model given a filename
+  URDF_EXPORT bool initFile(const std::string & filename);
+
+  /// \brief Load Model from a XML-string
+  URDF_EXPORT bool initString(const std::string & xmlstring);
+
+private:
+  std::unique_ptr<ModelImplementation> impl_;
+};
+
+// shared_ptr declarations moved to urdf/urdfdom_compatibility.h to allow for
+// std::shared_ptrs in latest version
+
+}  // namespace urdf
+
+#endif  // URDF__MODEL_HPP_
