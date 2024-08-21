@@ -29,9 +29,10 @@
 
 #include <tinyxml2.h>
 #include <urdf_parser/urdf_parser.h>
-#include <urdf_parser_plugin/parser.h>
 
 #include <string>
+
+#include <urdf_parser_plugin/parser.hpp>
 
 namespace urdf
 {

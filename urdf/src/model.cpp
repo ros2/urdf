@@ -39,7 +39,7 @@
 #include <utility>
 #include <vector>
 
-#include "urdf_parser_plugin/parser.h"
+#include "urdf_parser_plugin/parser.hpp"
 #include "pluginlib/class_loader.hpp"
 
 // Windows has preprocessor defines for "max", which conflicts with
