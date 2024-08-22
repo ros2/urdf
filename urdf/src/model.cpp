@@ -79,6 +79,24 @@ Model::Model()
 {
 }
 
+Model::Model(const Model & other)
+: ModelInterface(other), impl_(new ModelImplementation) {}
+
+Model & Model::operator=(const Model & other)
+{
+  return *this = Model(other);
+}
+
+Model::Model(Model && other) noexcept
+: ModelInterface(other), impl_(std::exchange(other.impl_, nullptr)) {}
+
+Model & Model::operator=(Model && other) noexcept
+{
+  ModelInterface::operator=(std::move(other));
+  std::swap(impl_, other.impl_);
+  return *this;
+}
+
 Model::~Model()
 {
   clear();
