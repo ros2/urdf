@@ -2,6 +2,21 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.6.1 (2024-08-22)
+------------------
+* Provide copy and move constructors for `model` (`#33 <https://github.com/ros2/urdf/issues/33>`_) (`#41 <https://github.com/ros2/urdf/issues/41>`_)
+  In 4b73ae2998bec0db24aca07b0bf7fc37b8e4dae7 the copy and move
+  constructors were accidentally disabled.
+  This means that one must always wrap a `urdf::Model` into some form of
+  pointer in order to pass it around or have it as a member.
+  This commit restores the copy and move constructors, such that one is
+  able to pass the `urdf::Model` around as a normal variable.
+  See also:
+  https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rc-five
+  Co-authored-by: Daniel Reuter <daniel.robin.reuter@googlemail.com>
+  Co-authored-by: Shane Loretz <sloretz@osrfoundation.org>
+* Contributors: Kenji Brameld (TRACLabs)
+
 2.6.0 (2022-03-01)
 ------------------
 * Install headers to include/${PROJECT_NAME} (`#31 <https://github.com/ros2/urdf/issues/31>`_)
