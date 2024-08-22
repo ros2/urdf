@@ -35,16 +35,14 @@
 /* Author: Wim Meeussen */
 
 #include <cmath>
+#include <iostream>
 #include <string>
 #include <vector>
 
 #include "gtest/gtest.h"
 #include "urdf/model.h"
 
-int g_argc;
-char ** g_argv;
-
-class TestParser : public testing::Test
+class TestParser : public testing::TestWithParam<std::vector<std::string>>
 {
 public:
   bool checkModel(urdf::Model & robot)
@@ -52,7 +50,7 @@ public:
     // get root link
     urdf::LinkConstSharedPtr root_link = robot.getRoot();
     if (!root_link) {
-      fprintf(stderr, "no root link %s\n", robot.getName().c_str());
+      std::cerr << "no root link " << robot.getName() << std::endl;
       return false;
     }
 
@@ -75,9 +73,8 @@ protected:
 
   bool traverse_tree(urdf::LinkConstSharedPtr link, int level = 0)
   {
-    fprintf(
-      stderr, "Traversing tree at level %d, link size %lu\n",
-      level, link->child_links.size());
+    std::cerr << "Traversing tree at level " << level << " link size "
+              << link->child_links.size() << std::endl;
     level += 2;
     bool retval = true;
     for (std::vector<urdf::LinkSharedPtr>::const_iterator child = link->child_links.begin();
@@ -91,13 +88,13 @@ protected:
         (*child)->parent_joint->parent_to_joint_origin_transform.rotation.getRPY(roll, pitch, yaw);
 
         if (std::isnan(roll) || std::isnan(pitch) || std::isnan(yaw)) {
-          fprintf(stderr, "getRPY() returned nan!\n");
+          std::cerr << "getRPY() returned nan!" << std::endl;
           return false;
         }
         // recurse down the tree
         retval &= this->traverse_tree(*child, level);
       } else {
-        fprintf(stderr, "root link: %s has a null child!\n", link->name.c_str());
+        std::cerr << "root link: " << link->name << "has a null child!" << std::endl;
         return false;
       }
     }
@@ -109,24 +106,24 @@ protected:
   size_t num_links;
 };
 
-TEST_F(TestParser, test) {
-  ASSERT_GE(g_argc, 3);
-  std::string folder = std::string(g_argv[1]) + "/test/";
-  fprintf(stderr, "Folder %s\n", folder.c_str());
-  std::string file = std::string(g_argv[2]);
+TEST_P(TestParser, test) {
+  std::vector<std::string> const & input = GetParam();
+
+  std::string folder = _TEST_RESOURCES_DIR_PATH;
+  std::cerr << "Folder " << folder << std::endl;
+  std::string file = std::string(input[0]);
   bool expect_success = (file.substr(0, 5) != "fail_");
   urdf::Model robot;
-  fprintf(stderr, "Parsing file %s, expecting %d\n", (folder + file).c_str(), expect_success);
+  std::cerr << "Parsing file " << (folder + file) << ", expecting " << expect_success << std::endl;
   if (!expect_success) {
     ASSERT_FALSE(robot.initFile(folder + file));
     return;
   }
 
-  ASSERT_EQ(g_argc, 7);
-  std::string robot_name = std::string(g_argv[3]);
-  std::string root_name = std::string(g_argv[4]);
-  size_t expected_num_joints = atoi(g_argv[5]);
-  size_t expected_num_links = atoi(g_argv[6]);
+  std::string robot_name = std::string(input[1]);
+  std::string root_name = std::string(input[2]);
+  size_t expected_num_joints = atoi(input[3].c_str());
+  size_t expected_num_links = atoi(input[4].c_str());
 
   ASSERT_TRUE(robot.initFile(folder + file));
 
@@ -140,17 +137,25 @@ TEST_F(TestParser, test) {
   EXPECT_EQ(num_links, expected_num_links);
   EXPECT_EQ(robot.joints_.size(), expected_num_joints);
   EXPECT_EQ(robot.links_.size(), expected_num_links);
-
-  // test reading from parameter server
-  ASSERT_TRUE(robot.initParam("robot_description"));
-  ASSERT_FALSE(robot.initParam("robot_description_wim"));
-  SUCCEED();
 }
+
+INSTANTIATE_TEST_SUITE_P(GroupTestParser, TestParser, ::testing::Values(
+  std::vector<std::string>({"test_robot.urdf", "r2d2", "dummy_link", "16", "17"}),
+  std::vector<std::string>({"no_visual.urdf", "no_visual", "link1", "0", "1"}),
+  std::vector<std::string>({"one_link.urdf", "one_link", "link1", "0", "1"}),
+  std::vector<std::string>({"two_links_one_joint.urdf", "two_links_one_joint", "link1", "1", "2"}),
+  // Cases expected not to parse correctly only get filename information (path, urdf file)
+  std::vector<std::string>({"fail_pr2_desc_bracket.urdf"}),
+  std::vector<std::string>({"fail_three_links_one_joint.urdf"}),
+  std::vector<std::string>({"fail_pr2_desc_double_joint.urdf"}),
+  std::vector<std::string>({"fail_pr2_desc_loop.urdf"}),
+  std::vector<std::string>({"fail_pr2_desc_no_filename_in_mesh.urdf"}),
+  std::vector<std::string>({"fail_pr2_desc_no_joint2.urdf"}),
+  std::vector<std::string>({"fail_pr2_desc_two_trees.urdf"})
+));
 
 int main(int argc, char ** argv)
 {
   testing::InitGoogleTest(&argc, argv);
-  g_argc = argc;
-  g_argv = argv;
   return RUN_ALL_TESTS();
 }

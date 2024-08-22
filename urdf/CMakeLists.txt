@@ -108,6 +108,15 @@ if(BUILD_TESTING)
     urdf
   )
   add_dependencies(plugin_overhead "${mock_install_target}")
+
+  add_definitions(-D_TEST_RESOURCES_DIR_PATH="${CMAKE_CURRENT_SOURCE_DIR}/test/")
+
+  ament_add_gtest(test_robot_model_parser
+    test/test_robot_model_parser.cpp
+  )
+  if(TARGET test_robot_model_parser)
+    target_link_libraries(test_robot_model_parser ${PROJECT_NAME} rcutils::rcutils)
+  endif()
 endif()
 
 # Export old-style CMake variables
