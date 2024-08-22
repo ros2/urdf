@@ -119,8 +119,6 @@ ament_export_libraries(${PROJECT_NAME})
 # Export modern CMake targets
 ament_export_targets(${PROJECT_NAME})
 
-ament_export_dependencies(pluginlib)
-ament_export_dependencies(rcutils)
 ament_export_dependencies(urdf_parser_plugin)
 ament_export_dependencies(urdfdom)
 ament_export_dependencies(urdfdom_headers)

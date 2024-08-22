@@ -39,8 +39,6 @@
   <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
   <exec_depend>urdfdom_headers</exec_depend>
 
-  <build_export_depend>pluginlib</build_export_depend>
-  <build_export_depend>rcutils</build_export_depend>
   <build_export_depend>urdf_parser_plugin</build_export_depend>
   <build_export_depend>urdfdom</build_export_depend>
   <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
