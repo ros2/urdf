@@ -134,7 +134,7 @@ TEST_P(TestParser, test) {
   EXPECT_EQ(robot.links_.size(), expected_num_links);
 }
 
-INSTANTIATE_TEST_CASE_P(GroupTestParser, TestParser, ::testing::Values(
+INSTANTIATE_TEST_SUITE_P(GroupTestParser, TestParser, ::testing::Values(
   std::vector<std::string>({"test_robot.urdf", "r2d2", "dummy_link", "16", "17"}),
   std::vector<std::string>({"no_visual.urdf", "no_visual", "link1", "0", "1"}),
   std::vector<std::string>({"one_link.urdf", "one_link", "link1", "0", "1"}),
