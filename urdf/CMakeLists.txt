@@ -3,6 +3,7 @@ project(urdf)
 
 find_package(ament_cmake_ros REQUIRED)
 find_package(pluginlib REQUIRED)
+find_package(rcutils REQUIRED)
 find_package(urdf_parser_plugin REQUIRED)
 find_package(urdfdom REQUIRED)
 find_package(urdfdom_headers REQUIRED)
@@ -45,6 +46,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   urdf_parser_plugin::urdf_parser_plugin
   urdfdom_headers::urdfdom_headers
   pluginlib::pluginlib
+  rcutils::rcutils
 )
 
 if(WIN32)
@@ -126,7 +128,6 @@ ament_export_libraries(${PROJECT_NAME})
 # Export modern CMake targets
 ament_export_targets(${PROJECT_NAME})
 
-ament_export_dependencies(pluginlib)
 ament_export_dependencies(urdf_parser_plugin)
 ament_export_dependencies(urdfdom)
 ament_export_dependencies(urdfdom_headers)

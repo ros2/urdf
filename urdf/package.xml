@@ -23,6 +23,7 @@
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
   <build_depend>pluginlib</build_depend>
+  <build_depend>rcutils</build_depend>
   <build_depend>tinyxml2_vendor</build_depend>
   <build_depend>urdfdom</build_depend>
   <build_depend>urdf_parser_plugin</build_depend>
@@ -30,6 +31,7 @@
   <build_depend>urdfdom_headers</build_depend>
 
   <exec_depend>pluginlib</exec_depend>
+  <exec_depend>rcutils</exec_depend>
   <exec_depend>tinyxml2_vendor</exec_depend>
   <exec_depend>urdfdom</exec_depend>
   <!-- while `urdf_parser_plugin` is a header only lib, `pluginlib` requires the package to exist during runtime. -->
@@ -37,7 +39,6 @@
   <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
   <exec_depend>urdfdom_headers</exec_depend>
 
-  <build_export_depend>pluginlib</build_export_depend>
   <build_export_depend>urdf_parser_plugin</build_export_depend>
   <build_export_depend>urdfdom</build_export_depend>
   <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
