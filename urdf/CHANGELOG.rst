@@ -2,6 +2,13 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.12.0 (2024-08-28)
+-------------------
+* Added commom linters (`#39 <https://github.com/ros2/urdf/issues/39>`_)
+* Use rcutils to log (`#37 <https://github.com/ros2/urdf/issues/37>`_)
+* Enable test_robot_model_parser test (`#38 <https://github.com/ros2/urdf/issues/38>`_)
+* Contributors: Alejandro Hernández Cordero
+
 2.11.0 (2024-04-29)
 -------------------
 

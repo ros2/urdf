@@ -2,6 +2,11 @@
 Changelog for package urdf_parser_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.12.0 (2024-08-28)
+-------------------
+* Added commom linters (`#39 <https://github.com/ros2/urdf/issues/39>`_)
+* Contributors: Alejandro Hernández Cordero
+
 2.11.0 (2024-04-29)
 -------------------
 
