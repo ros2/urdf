@@ -2,6 +2,11 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.12.1 (2024-12-13)
+-------------------
+* Added documentation with rosdoc2 (`#40 <https://github.com/ros2/urdf/issues/40>`_)
+* Contributors: Alejandro Hernández Cordero
+
 2.12.0 (2024-08-28)
 -------------------
 * Added commom linters (`#39 <https://github.com/ros2/urdf/issues/39>`_)
