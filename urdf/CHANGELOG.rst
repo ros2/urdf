@@ -2,6 +2,9 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.13.0 (2025-04-25)
+-------------------
+
 2.12.2 (2024-12-20)
 -------------------
 * make linters happy (`#45 <https://github.com/ros2/urdf/issues/45>`_)
