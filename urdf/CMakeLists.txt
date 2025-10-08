@@ -7,7 +7,6 @@ find_package(rcutils REQUIRED)
 find_package(urdf_parser_plugin REQUIRED)
 find_package(urdfdom REQUIRED)
 find_package(urdfdom_headers REQUIRED)
-find_package(tinyxml2_vendor REQUIRED)
 find_package(TinyXML2 REQUIRED)
 
 # Find version components
