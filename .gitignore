@@ -1,2 +1,5 @@
 # VIM
 .*.sw?
+
+# VS Code
+.vscode/
