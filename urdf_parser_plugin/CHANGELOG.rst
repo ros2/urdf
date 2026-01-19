@@ -2,6 +2,12 @@
 Changelog for package urdf_parser_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.13.1 (2026-01-19)
+-------------------
+* Fix CMAKE deprecation (`#48 <https://github.com/ros2/urdf/issues/48>`_)
+  cmake version < then 3.10 is deprecated
+* Contributors: mosfet80
+
 2.13.0 (2025-04-25)
 -------------------
 
