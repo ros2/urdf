@@ -2,6 +2,11 @@
 Changelog for package urdf_parser_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.12.3 (2026-01-19)
+-------------------
+* Fix CMAKE deprecation (`#48 <https://github.com/ros2/urdf/issues/48>`_) (`#53 <https://github.com/ros2/urdf/issues/53>`_)
+* Contributors: mergify[bot]
+
 2.12.2 (2024-12-20)
 -------------------
 
