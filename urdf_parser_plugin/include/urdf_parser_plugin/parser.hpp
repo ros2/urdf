@@ -33,7 +33,7 @@
 
 #include <string>
 
-#include "urdf_world/types.h"
+#include "urdf_model/types.h"
 
 namespace urdf
 {
