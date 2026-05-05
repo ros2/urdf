@@ -2,6 +2,9 @@
 Changelog for package urdf_parser_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.13.2 (2026-04-14)
 -------------------
 
