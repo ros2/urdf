@@ -21,9 +21,9 @@ set(generated_compat_header "${generated_install_path}/${PROJECT_NAME}/urdfdom_c
 include_directories(${generated_install_path})
 configure_file(urdfdom_compatibility.h.in "${generated_compat_header}" @ONLY)
 
-# Default to C++17
+# Default to C++20
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD 20)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
