@@ -21,6 +21,7 @@
   <url type="bugtracker">https://github.com/ros2/urdf/issues</url>
 
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros_core</buildtool_depend>
 
   <build_depend>pluginlib</build_depend>
   <build_depend>rcutils</build_depend>

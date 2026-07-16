@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(urdf)
 
 find_package(ament_cmake_ros REQUIRED)
+find_package(ament_cmake_ros_core REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rcutils REQUIRED)
 find_package(urdf_parser_plugin REQUIRED)
@@ -21,11 +22,6 @@ set(generated_compat_header "${generated_install_path}/${PROJECT_NAME}/urdfdom_c
 include_directories(${generated_install_path})
 configure_file(urdfdom_compatibility.h.in "${generated_compat_header}" @ONLY)
 
-# Default to C++20
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 20)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
-endif()
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
@@ -42,6 +38,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
   urdfdom::urdfdom_model
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
+  ament_cmake_ros_core::ament_ros_cxx_standard
   urdf_parser_plugin::urdf_parser_plugin
   urdfdom_headers::urdfdom_headers
   pluginlib::pluginlib
@@ -61,6 +58,7 @@ add_library(urdf_xml_parser SHARED
 )
 target_link_libraries(urdf_xml_parser PRIVATE
   ${PROJECT_NAME}
+  ament_cmake_ros_core::ament_ros_cxx_standard
   pluginlib::pluginlib
   tinyxml2::tinyxml2
   urdf_parser_plugin::urdf_parser_plugin
@@ -98,6 +96,7 @@ if(BUILD_TESTING)
   )
   target_link_libraries(plugin_overhead
     urdf
+    ament_cmake_ros_core::ament_ros_cxx_standard
   )
   add_dependencies(plugin_overhead "${mock_install_target}")
 
@@ -107,7 +106,7 @@ if(BUILD_TESTING)
     test/test_robot_model_parser.cpp
   )
   if(TARGET test_robot_model_parser)
-    target_link_libraries(test_robot_model_parser ${PROJECT_NAME} rcutils::rcutils)
+    target_link_libraries(test_robot_model_parser ${PROJECT_NAME} rcutils::rcutils ament_cmake_ros_core::ament_ros_cxx_standard)
   endif()
 endif()
 
