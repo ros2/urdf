@@ -85,14 +85,14 @@ if(BUILD_TESTING)
   pluginlib_enable_plugin_testing(
     CMAKE_TARGET_VAR mock_install_target
     AMENT_PREFIX_PATH_VAR mock_install_path
-    PLUGIN_CATEGORY "urdf_parser"
+    PLUGIN_CATEGORY "urdf_parser_plugin"
     PLUGIN_DESCRIPTIONS "urdf_parser_description.xml"
     PLUGIN_LIBRARIES urdf_xml_parser
   )
 
   ament_add_google_benchmark(plugin_overhead
     test/benchmark_plugin_overhead.cpp
-    APPEND_ENV AMENT_PREFIX_PATH="${mock_install_path}"
+    APPEND_ENV AMENT_PREFIX_PATH=${mock_install_path}
   )
   target_link_libraries(plugin_overhead
     urdf
