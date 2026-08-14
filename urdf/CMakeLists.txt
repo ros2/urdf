@@ -92,7 +92,7 @@ if(BUILD_TESTING)
 
   ament_add_google_benchmark(plugin_overhead
     test/benchmark_plugin_overhead.cpp
-    APPEND_ENV AMENT_PREFIX_PATH=${mock_install_path}
+    APPEND_ENV "AMENT_PREFIX_PATH=${mock_install_path}"
   )
   target_link_libraries(plugin_overhead
     urdf
