@@ -31,9 +31,13 @@
 #ifndef URDF_PARSER_PLUGIN__PARSER_H_
 #define URDF_PARSER_PLUGIN__PARSER_H_
 
+#ifdef _MSC_VER
+#pragma message("This header is obsolete, please include urdf_parser_plugin/parser.hpp instead")
+#else
 #warning \
   This header is obsolete, please include \
   urdf_parser_plugin/parser.hpp instead
+#endif
 
 #include <urdf_parser_plugin/parser.hpp>
 
