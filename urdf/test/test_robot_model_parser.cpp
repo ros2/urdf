@@ -30,12 +30,18 @@
 /* Author: Wim Meeussen */
 
 #include <cmath>
+#include <cstddef>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include "gtest/gtest.h"
 #include "urdf/model.hpp"
+#include "urdf_model/joint.h"
+#include "urdf_model/link.h"
+#include "urdf_model/pose.h"
+#include "urdf_model/types.h"
 
 class TestParser : public testing::TestWithParam<std::vector<std::string>>
 {

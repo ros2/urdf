@@ -31,6 +31,7 @@
 #ifndef URDF_PARSER_PLUGIN__PARSER_HPP_
 #define URDF_PARSER_PLUGIN__PARSER_HPP_
 
+#include <cstddef>
 #include <string>
 
 #include "urdf_model/types.h"

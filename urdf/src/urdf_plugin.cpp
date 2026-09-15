@@ -30,6 +30,7 @@
 #include <tinyxml2.h>
 #include <urdf_parser/urdf_parser.h>
 
+#include <cstddef>
 #include <string>
 
 #include <urdf_parser_plugin/parser.hpp>
