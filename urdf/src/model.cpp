@@ -34,15 +34,16 @@
 #include <rcutils/logging_macros.h>
 
 #include <cassert>
+#include <cstddef>
 #include <fstream>
-#include <iostream>
 #include <limits>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "urdf_parser_plugin/parser.hpp"
 #include "pluginlib/class_loader.hpp"
+#include "pluginlib/exceptions.hpp"
+#include "urdf_parser_plugin/parser.hpp"
 
 // Windows has preprocessor defines for "max", which conflicts with
 // several things (one of them being std::numeric_limits<T>::max()).  Since

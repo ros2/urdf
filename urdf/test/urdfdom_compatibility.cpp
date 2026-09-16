@@ -30,6 +30,7 @@
 
 #include <gtest/gtest.h>
 
+#include <memory>
 #include <string>
 
 #include "urdf/model.hpp"
