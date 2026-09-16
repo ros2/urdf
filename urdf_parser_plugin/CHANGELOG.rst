@@ -2,6 +2,12 @@
 Changelog for package urdf_parser_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.14.1 (2026-09-16)
+-------------------
+* Include what you use (`#58 <https://github.com/ros2/urdf/issues/58>`_)
+* Use pragma message for obsolete parser header on MSVC (`#56 <https://github.com/ros2/urdf/issues/56>`_)
+* Contributors: Alejandro Hernández Cordero, Tobias Fischer
+
 2.14.0 (2026-05-05)
 -------------------
 

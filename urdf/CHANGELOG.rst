@@ -2,6 +2,13 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.14.1 (2026-09-16)
+-------------------
+* Include what you use (`#58 <https://github.com/ros2/urdf/issues/58>`_)
+* Fix the mock plugin install for the plugin_overhead benchmark. (`#57 <https://github.com/ros2/urdf/issues/57>`_)
+* use C++ 20 in default. (`#55 <https://github.com/ros2/urdf/issues/55>`_)
+* Contributors: Alejandro Hernández Cordero, Chris Lalancette, Tomoya Fujita
+
 2.14.0 (2026-05-05)
 -------------------
 
