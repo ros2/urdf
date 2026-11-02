@@ -15,7 +15,6 @@ target_link_libraries(urdf_parser_plugin INTERFACE
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  set(ament_cmake_cppcheck_LANGUAGE "c++")
   set(ament_cmake_uncrustify_ADDITIONAL_ARGS LANGUAGE "C++")
   ament_lint_auto_find_test_dependencies()
 endif()
